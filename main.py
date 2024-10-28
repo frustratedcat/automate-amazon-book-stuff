@@ -22,3 +22,6 @@ click_account_list(20)
 input_email_password('input_email', 'ap_email', creds.username)
 input_email_password('input_password', 'ap_password', creds.password)
 click_account_list(100)
+
+content_library = driver.find_element(By.LINK_TEXT, 'Content Library')
+content_library.send_keys(Keys.ENTER)
