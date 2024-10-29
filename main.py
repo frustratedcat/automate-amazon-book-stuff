@@ -23,13 +23,25 @@ def input_select(time, var, type, name, file):
   else:
     var.send_keys(Keys.ENTER)
 
+# Add all items on page to list
+all_books = []
+implicitly_wait(20)
+all_books = driver.find_element(By.TAG_NAME, 'tbody')
+print(all_books)
+
+# Naviaget to next page
+
+# Log in
 click_select(20, 'account_list', By.ID, 'nav-link-accountList')
 input_select(5, 'input_email', By.ID, 'ap_email', creds.username)
 input_select(5, 'input_password', By.ID, 'ap_password', creds.password)
+
+# Navigate to content library
 click_select(100, 'account_list', By.ID, 'nav-link-accountList')
 input_select(5, 'content_library', By.LINK_TEXT, 'Content Library', None)
 click_select(5, 'books', By.ID, 'content-ownership-books')
 
+# Select and download book
 click_select(20, 'drop_down', By.ID, 'dd_title')
 click_select(20, 'transfer_click', By.XPATH, '//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
 click_select(20, 'click_device', By.XPATH, '//span[contains(@id, "download_and_transfer_list")]')
