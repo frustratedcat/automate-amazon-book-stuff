@@ -35,13 +35,13 @@ click_select(5, 'books', By.ID, 'content-ownership-books')
 
 # Get pages and download items
 last_page = driver.find_element(By. XPATH, '//div[contains(@id, "pagination")]//a[last()]').text
-all_books = driver.find_elements(By.XPATH, '//tr[contains(@class, "ListItem-module_row")]')
 
 # Pages loop
 for num in range(0, int(last_page)):
   # Next Page
   click_select(20, 'page', By.XPATH, '//div[contains(@id, "pagination")]//a[contains(@id, "page-'+str(num+1)+'")]')
 
+  all_books = driver.find_elements(By.XPATH, '//tr[contains(@class, "ListItem-module_row")]')
   # Download items loop
   for i in range(len(all_books)):
     click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "dd_title")]')
