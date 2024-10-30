@@ -23,14 +23,6 @@ def input_select(time, var, type, name, file):
   else:
     var.send_keys(Keys.ENTER)
 
-# Add all items on page to list
-all_books = []
-implicitly_wait(20)
-all_books = driver.find_element(By.TAG_NAME, 'tbody')
-print(all_books)
-
-# Naviaget to next page
-
 # Log in
 click_select(20, 'account_list', By.ID, 'nav-link-accountList')
 input_select(5, 'input_email', By.ID, 'ap_email', creds.username)
@@ -41,9 +33,20 @@ click_select(100, 'account_list', By.ID, 'nav-link-accountList')
 input_select(5, 'content_library', By.LINK_TEXT, 'Content Library', None)
 click_select(5, 'books', By.ID, 'content-ownership-books')
 
-# Select and download book
-click_select(20, 'drop_down', By.ID, 'dd_title')
-click_select(20, 'transfer_click', By.XPATH, '//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
-click_select(20, 'click_device', By.XPATH, '//span[contains(@id, "download_and_transfer_list")]')
-click_select(20, 'click_download', By.XPATH, '//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
-click_select(20, 'notification_close', By.ID, 'notification-close')
+# Get pages and download items
+last_page = driver.find_element(By. XPATH, '//div[contains(@id, "pagination")]//a[last()]').text
+all_books = driver.find_elements(By.XPATH, '//tr[contains(@class, "ListItem-module_row")]')
+
+# Pages loop
+for num in range(0, int(last_page)):
+  # Next Page
+  click_select(20, 'page', By.XPATH, '//div[contains(@id, "pagination")]//a[contains(@id, "page-'+str(num+1)+'")]')
+
+  # Download items loop
+  for i in range(len(all_books)):
+    click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "dd_title")]')
+    click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
+    click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//span[contains(@id, "download_and_transfer_list")]')
+    click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
+    click_select(20, 'notification_close', By.ID, 'notification-close')
+
