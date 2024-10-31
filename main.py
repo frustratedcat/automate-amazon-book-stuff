@@ -35,15 +35,15 @@ def main():
   # Pages loop
   for num in range(0, int(last_page)):
     # Next Page
-    click_select(20, 'page', By.XPATH, '//div[contains(@id, "pagination")]//a[contains(@id, "page-'+str(num+1)+'")]')
+    click_select(20, 'page', By.XPATH, '//div[contains(@id, "pagination")]//a[contains(@id, "page-' + str(num + 1) + '")]')
 
     all_books = driver.find_elements(By.XPATH, '//tr[contains(@class, "ListItem-module_row")]')
     # Download items loop
     for i in range(len(all_books)):
-      click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "dd_title")]')
-      click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
-      click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//span[contains(@id, "download_and_transfer_list")]')
-      click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")]['+str(i + 1)+']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
+      click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
+      click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
+      click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
+      click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
       click_select(20, 'notification_close', By.ID, 'notification-close')
 
 if __name__ == '__main__':
