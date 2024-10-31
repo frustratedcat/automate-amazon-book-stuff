@@ -16,10 +16,7 @@ def click_select(time, var, type, name):
 def input_select(time, var, type, name, file):
   implicitly_wait(time)
   var = driver.find_element(type, name)
-  if file:
-    var.send_keys(file + Keys.ENTER)
-  else:
-    var.send_keys(Keys.ENTER)
+  var.send_keys(file + Keys.ENTER) if file else var.send_keys(Keys.ENTER)
 
 def main():
   # Log in
