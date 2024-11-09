@@ -6,23 +6,21 @@ import creds
 driver = webdriver.Firefox()
 driver.get("https://wwww.amazon.com")
 
-def implicitly_wait(time):
-  driver.implicitly_wait(time)
-
 def click_select(time, var, type, name):
-  implicitly_wait(time)
+  driver.implicitly_wait(time)
   var = driver.find_element(type, name).click()
 
 def input_select(time, var, type, name, file):
-  implicitly_wait(time)
+  driver.implicitly_wait(time)
   var = driver.find_element(type, name)
   var.send_keys(file + Keys.ENTER) if file else var.send_keys(Keys.ENTER)
 
 def main():
   # Log in
   click_select(20, 'account_list', By.ID, 'nav-link-accountList')
-  input_select(5, 'input_email', By.ID, 'ap_email', creds.username)
-  input_select(5, 'input_password', By.ID, 'ap_password', creds.password)
+  input_select(20, 'input_email', By.ID, 'ap_email', creds.username)
+  input_select(20, 'input_password', By.ID, 'ap_password', creds.password)
+  input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', creds.two_factor)
 
   # Navigate to content library
   click_select(100, 'account_list', By.ID, 'nav-link-accountList')
