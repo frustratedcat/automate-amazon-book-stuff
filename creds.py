@@ -1,5 +1,5 @@
 from getpass import getpass
 
-username = input('Please input your username\n>')
-password = getpass('Please input your password\n>')
-two_factor = input('Please input your 2FA\n>')
+username = input('Please enter your username\n>')
+password = getpass('Please enter your password\n>')
+two_factor = input('Please enter your 2FA\n>')
