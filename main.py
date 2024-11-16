@@ -18,9 +18,11 @@ def input_select(time, var, type, name, file):
 def main():
   # Log in
   click_select(20, 'account_list', By.ID, 'nav-link-accountList')
-  input_select(20, 'input_email', By.ID, 'ap_email', creds.username)
-  input_select(20, 'input_password', By.ID, 'ap_password', creds.password)
-  input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', creds.two_factor)
+  input_select(20, 'input_email', By.ID, 'ap_email', creds.get_username())
+  input_select(20, 'input_password', By.ID, 'ap_password', creds.get_password())
+  # Check for 2FA
+  if driver.find_element(By.ID, 'auth-mfa-otpcode'):
+    input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', creds.get_two_factor())
 
   # Navigate to content library
   click_select(100, 'account_list', By.ID, 'nav-link-accountList')
