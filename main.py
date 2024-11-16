@@ -37,14 +37,23 @@ def main():
     # Next Page
     click_select(20, 'page', By.XPATH, '//div[contains(@id, "pagination")]//a[contains(@id, "page-' + str(num + 1) + '")]')
 
+    # Get total number of books on first page for looping
     all_books = driver.find_elements(By.XPATH, '//tr[contains(@class, "ListItem-module_row")]')
+
     # Download items loop
-    for i in range(len(all_books)):
-      click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
-      click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
-      click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
-      click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
-      click_select(20, 'notification_close', By.ID, 'notification-close')
+    try:
+      for i in range(len(all_books)):
+        # Click dropdown
+        click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
+        # Click transfer item
+        click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
+        # Choose device
+        click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
+        #Click download
+        click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
+        click_select(20, 'notification_close', By.ID, 'notification-close')
+    except:
+      print('Finished')
 
 if __name__ == '__main__':
   main()
