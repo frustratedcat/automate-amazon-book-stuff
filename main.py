@@ -47,27 +47,21 @@ def download_items():
     all_books = driver.find_elements(By.XPATH, '//tr[contains(@class, "ListItem-module_row")]')
 
     # Loop items
-    try:
-      for i in range(len(all_books)):
-        # Click dropdown
-        click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
+    for i in range(len(all_books)):
+      # Click dropdown
+      click_select(20, 'drop_down', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
 
-        # Click transfer item
-        click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
+      # Click transfer item
+      click_select(20, 'transfer_click', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
 
-        # Choose device
-        click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
+      # Choose device
+      click_select(20, 'click_device', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
 
-        #Click download
-        click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
+      #Click download
+      click_select(20, 'click_download', By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
 
-        # Close the download notification
-        click_select(20, 'notification_close', By.ID, 'notification-close')
-
-    except:
-      # End process
-      driver.quit()
-      print('Finished')
+      # Close the download notification
+      click_select(20, 'notification_close', By.ID, 'notification-close')
 
 def main():
   # Log in
@@ -78,6 +72,10 @@ def main():
 
   # Download items and end process
   download_items()
+
+  # End process
+  driver.quit()
+  print('Finished')
 
 if __name__ == '__main__':
   main()
