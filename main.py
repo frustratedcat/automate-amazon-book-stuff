@@ -14,7 +14,6 @@ print('Starting up\n')
 driver = webdriver.Firefox()
 driver.get("https://wwww.amazon.com")
 
-
 # Click items
 def click_select(time, type, name):
   driver.implicitly_wait(time)
@@ -60,7 +59,7 @@ def download_items():
       title = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "digital_entity_title")]')
       author = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "information_row")]')
       
-      #  Print title and author
+      # Print title and author
       print(f'{title.text}, by {author.text}')
 
       # Click dropdown
