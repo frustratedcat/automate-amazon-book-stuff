@@ -62,6 +62,27 @@ def download_items():
       # Print title and author
       print(f'{title.text}, by {author.text}')
 
+      print(f'''\
+         _______________________________
+        |                               \
+        |                               |
+        |                               |
+        |                               |
+        |         {title.text}          |
+        |                               |
+        |         {author.text}         |
+        |                               |
+        |                               |
+        |                               |
+        |                               |
+        |                               |
+        |                               |
+        |                               |
+        |                               |
+        |                               |
+        ---------------------------------
+''')
+
       # Click dropdown
       click_select(20, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
 
