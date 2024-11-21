@@ -78,20 +78,22 @@ def download_items():
       click_select(20, By.ID, 'notification-close')
 
 def main():
-  # Log in
-  clear_screen()
-  login()
-  clear_screen()
+  try:    
+    # Log in
+    clear_screen()
+    login()
+    clear_screen()
 
-  # Navigate to content library
-  nav_to_content_library()
+    # Navigate to content library
+    nav_to_content_library()
 
-  # Download items and end process
-  download_items()
+    # Download items and end process
+    download_items()
 
-  # End process
-  driver.quit()
-  print('Finished')
+  finally:
+    # End process
+    driver.quit()
+    print('Finished')
 
 if __name__ == '__main__':
   main()
