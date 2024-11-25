@@ -10,8 +10,11 @@ def clear_screen():
 
 # Start up and connect
 clear_screen()
-print('Starting up\n')
-driver = webdriver.Firefox()
+print('Starting up. Please wait...\n')
+options = webdriver.FirefoxOptions
+options.add_argument('-headless')
+options.page_load_strategy = 'eager'
+driver = webdriver.Firefox(options=options)
 driver.get("https://wwww.amazon.com")
 
 # Get username
