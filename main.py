@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 from getpass import getpass
 import os
 
@@ -11,7 +12,7 @@ def clear_screen():
 # Start up and connect
 clear_screen()
 print('Starting up. Please wait...\n')
-options = webdriver.FirefoxOptions
+options = webdriver.FirefoxOptions()
 options.add_argument('-headless')
 options.page_load_strategy = 'eager'
 driver = webdriver.Firefox(options=options)
@@ -45,12 +46,15 @@ def input_select(time, var, type, name, file):
 
 # Login function
 def login():
-    click_select(20, By.ID, 'nav-link-accountList')
-    input_select(20, 'input_email', By.ID, 'ap_email', get_username())
-    input_select(20, 'input_password', By.ID, 'ap_password', get_password())
-    # Check for 2FA
-    if driver.find_element(By.ID, 'auth-mfa-otpcode'):
-      input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', get_two_factor())
+    try:
+        click_select(20, By.ID, 'nav-link-accountList')
+        input_select(20, 'input_email', By.ID, 'ap_email', get_username())
+        input_select(20, 'input_password', By.ID, 'ap_password', get_password())
+        # Check for 2FA
+        if driver.find_element(By.ID, 'auth-mfa-otpcode'):
+          input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', get_two_factor())
+    except NoSuchElementException:
+        print('There was a problem loading the site, please run the application again\n')
 
 # Navigation function
 def nav_to_content_library():
@@ -73,27 +77,33 @@ def download_items():
 
         # Loop items
         for i in range(len(all_books)):
-            # Get title and author
-            title = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "digital_entity_title")]')
-            author = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "information_row")]')
+
+            try:
+                # Get title and author
+                title = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "digital_entity_title")]')
+                author = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "information_row")]')
       
-            # Print title and author
-            print(f'{title.text}, by {author.text}')
+                # Print title and author
+                print(f'{title.text}, by {author.text}')
 
-            # Click dropdown
-            click_select(20, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
+                # Click dropdown
+                click_select(5, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "dd_title")]')
 
-            # Click transfer item
-            click_select(20, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
+                # Click transfer item
+                click_select(5, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER")]')
 
-            # Choose device
-            click_select(20, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
+                # Choose device
+                click_select(5, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//span[contains(@id, "download_and_transfer_list")]')
 
-            #Click download
-            click_select(20, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
+                #Click download
+                click_select(5, By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@id, "DOWNLOAD_AND_TRANSFER_ACTION")]/span[text()="Download"]')
 
-            # Close the download notification
-            click_select(20, By.ID, 'notification-close')
+                # Close the download notification
+                click_select(5, By.ID, 'notification-close')
+
+            except NoSuchElementException:
+                print('Skipping digital library loan...\n')
+
 
 def main():
     try:    
