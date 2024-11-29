@@ -50,11 +50,13 @@ def login():
         click_select(20, By.ID, 'nav-link-accountList')
         input_select(20, 'input_email', By.ID, 'ap_email', get_username())
         input_select(20, 'input_password', By.ID, 'ap_password', get_password())
+
         # Check for 2FA
         if driver.find_element(By.ID, 'auth-mfa-otpcode'):
-          input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', get_two_factor())
+            input_select(20, 'input_two_factor', By.ID, 'auth-mfa-otpcode', get_two_factor())
+
     except NoSuchElementException:
-        print('There was a problem loading the site, please run the application again\n')
+        print('There was a problem loading the page, please run the application again\n')
 
 # Navigation function
 def nav_to_content_library():
