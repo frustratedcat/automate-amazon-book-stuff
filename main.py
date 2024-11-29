@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from getpass import getpass
 import os
 
@@ -58,7 +60,7 @@ def login():
     except NoSuchElementException:
         print('There was a problem loading the page, please run the application again\n')
 
-# Navigation function
+# Nav to content library
 def nav_to_content_library():
     click_select(100, By.ID, 'nav-link-accountList')
     input_select(5, 'content_library', By.LINK_TEXT, 'Content Library', None)
@@ -84,7 +86,7 @@ def download_items():
                 # Get title and author
                 title = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "digital_entity_title")]')
                 author = driver.find_element(By.XPATH, '//tr[contains(@class, "ListItem-module_row")][' + str(i + 1) + ']//div[contains(@class, "information_row")]')
-      
+
                 # Print title and author
                 print(f'{title.text}, by {author.text}')
 
@@ -107,23 +109,74 @@ def download_items():
                 print('Skipping digital library loan...\n')
 
 
+# Download the content library
+def content_library_download():
+    # Navigate to content library
+    nav_to_content_library()
+    # Download items and end process
+    download_items()
+
+# Nav to book list
+def nav_to_book_list():
+    click_select(100, By.ID, 'nav-link-accountList')
+    click_select(5, By.XPATH, '//a[contains(@class, "ya-card__whole-card-link")]/div/div/div/div[2]/h2[contains(text(), "Your Lists")]')
+    click_select(5, By.XPATH, '//span[@id="wl-list-entry-title-3D1X5QSJD5ZZN"]')
+
+# Click Filter & Sort dropdown
+def filter_for_price():
+    click_select(5, By.ID, 'filter-and-sort')
+    WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, '//span[@id="sort-price-asc-label"]')))
+    click_select(5, By.XPATH, '//span[@id="sort-price-asc-label"]')
+
+    # Get list of items
+    driver.implicitly_wait(5)
+    item_list = driver.find_elements(By.XPATH, '//li[contains(@class, "g-item-sortable")]')
+
+    # Loop through items and get data
+    clear_screen()
+    print('Showing Cheapest Books\n----------------------')
+    for i in range(1, len(item_list)):
+        item_price_sign = driver.find_element(By.XPATH, '//li[contains(@class, "g-item-sortable")][' + str(i) + ']/span/div/div/div/div[2]/div[3]/div/div/div/div/div/div/div[contains(@class, "price-section")]/span/span[2]/span[1]')
+        item_price_whole = driver.find_element(By.XPATH, '//li[contains(@class, "g-item-sortable")][' + str(i) + ']/span/div/div/div/div[2]/div[3]/div/div/div/div/div/div/div[contains(@class, "price-section")]/span/span[2]/span[2]')
+        item_price_fraction = driver.find_element(By.XPATH, '//li[contains(@class, "g-item-sortable")][' + str(i) + ']/span/div/div/div/div[2]/div[3]/div/div/div/div/div/div/div[contains(@class, "price-section")]/span/span[2]/span[3]')
+            
+        item_price = item_price_sign.text + item_price_whole.text + item_price_fraction.text
+        item_title = driver.find_element(By.XPATH, '//li[contains(@class, "g-item-sortable")][' + str(i) + ']/span/div/div/div/div[2]/div[3]/div/div/div/div/div[2]/h2/a')
+        item_author = driver.find_element(By.XPATH, '//li[contains(@class, "g-item-sortable")][' + str(i) + ']/span/div/div/div/div[2]/div[3]/div/div/div/div/div[2]/span')
+
+        print(f'Price: {item_price} | Author: {item_author.text} | Title: {item_title.text}')
+
+
+# Get book list prices
+def get_book_list_prices():
+    print('Gathering data...')
+    # Navigate to book list
+    nav_to_book_list()
+    # Print list from prce low to high
+    filter_for_price()
+
 def main():
-    try:    
+    try:
         # Log in
         clear_screen()
         login()
         clear_screen()
 
-        # Navigate to content library
-        nav_to_content_library()
-
-        # Download items and end process
-        download_items()
+        get_choice = input('Would you like to?\n1: Download Book Library\n2: Check Book List Prices\n(Type "1" or "2")> ')
+        try:
+            if get_choice == "1":
+                clear_screen()
+                content_library_download()
+            else:
+                clear_screen()
+                get_book_list_prices()
+        except ValueError:
+            print('Invalid input...')
 
     finally:
         # End process
         driver.quit()
-        print('Finished')
+        print('--------\nFinished')
 
 if __name__ == '__main__':
     main()
