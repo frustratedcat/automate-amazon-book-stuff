@@ -107,6 +107,7 @@ def download_items():
 
             except NoSuchElementException:
                 print('Skipping digital library loan...\n')
+    print('--------\nFinished')
 
 
 # Download the content library
@@ -145,6 +146,7 @@ def filter_for_price():
         item_author = driver.find_element(By.XPATH, '//li[contains(@class, "g-item-sortable")][' + str(i) + ']/span/div/div/div/div[2]/div[3]/div/div/div/div/div[2]/span')
 
         print(f'Price: {item_price} | Author: {item_author.text} | Title: {item_title.text}')
+    print('--------\nFinished')
 
 
 # Get book list prices
@@ -176,7 +178,6 @@ def main():
     finally:
         # End process
         driver.quit()
-        print('--------\nFinished')
 
 if __name__ == '__main__':
     main()
