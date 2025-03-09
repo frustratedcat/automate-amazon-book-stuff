@@ -1,3 +1,5 @@
+# This application no longer works as of 2/26/2025.
+
 Automating Amazon eBook Library Download
 ========================================
 
